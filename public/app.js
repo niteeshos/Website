@@ -1,5 +1,6 @@
 const $ = (s) => document.querySelector(s);
 let allProducts = [];
+let allCategories = [];
 let activeCategory = 'all';
 
 async function api(path, options = {}) {
@@ -24,7 +25,7 @@ function setupScrollAnimations() {
 function revealMenuCards() {
   document.querySelectorAll('#menu-grid .card').forEach((card, i) => {
     card.classList.add('reveal');
-    card.style.transitionDelay = `${i * 80}ms`;
+    card.style.transitionDelay = `${i * 60}ms`;
     requestAnimationFrame(() => card.classList.add('show'));
   });
 }
@@ -37,24 +38,49 @@ function renderCategoryChips(categories) {
     btn.addEventListener('click', () => {
       activeCategory = btn.dataset.category;
       renderCategoryChips(categories);
-      renderMenu(allProducts);
+      renderMenu();
     });
   });
 }
 
-function renderMenu(products) {
-  const grid = $('#menu-grid');
-  const available = products.filter((p) => p.available && (activeCategory === 'all' || p.category === activeCategory));
-  grid.innerHTML = available.map(p => `
+function productCard(p) {
+  return `
     <article class="card glass hover-lift">
       <img class="food-photo" src="${p.imageUrl}" alt="${p.name}" loading="lazy" />
-      <h3 class="font-playfair">${p.name}</h3>
-      <div class="price">$${Number(p.price).toFixed(2)}</div>
-      <p class="muted">${p.description}</p>
-      <p class="pill">${p.category}</p>
+      <div class="card-content">
+        <h3 class="font-playfair">${p.name}</h3>
+        <div class="price">$${Number(p.price).toFixed(2)}</div>
+        <p class="muted">${p.description}</p>
+        <p class="pill">${p.category}</p>
+      </div>
     </article>
-  `).join('');
+  `;
+}
 
+function renderMenu() {
+  const container = $('#menu-grid');
+  const available = allProducts.filter((p) => p.available);
+
+  if (activeCategory !== 'all') {
+    const filtered = available.filter((p) => p.category === activeCategory);
+    container.innerHTML = `<div class="menu-row">${filtered.map(productCard).join('')}</div>`;
+    revealMenuCards();
+    return;
+  }
+
+  const sections = allCategories.map((c) => {
+    const items = available.filter((p) => p.category === c.slug);
+    if (!items.length) return '';
+    return `
+      <section class="category-block reveal">
+        <h3 class="category-title font-playfair">${c.name}</h3>
+        <div class="menu-row">${items.map(productCard).join('')}</div>
+      </section>
+    `;
+  }).join('');
+
+  container.innerHTML = sections || '<p class="muted">No menu items available.</p>';
+  setupScrollAnimations();
   revealMenuCards();
 }
 
@@ -65,14 +91,15 @@ async function bootstrap() {
     api('/api/categories')
   ]);
 
-  $('#nav-logo').textContent = settings.restaurantName;
-  $('#hero-title').textContent = settings.restaurantName;
-  $('#hero-tagline').textContent = settings.heroTagline;
-  $('#about-text').textContent = settings.aboutText;
+  $('#nav-logo').textContent = settings.restaurantName || 'Café';
+  $('#hero-title').textContent = settings.restaurantName || 'Café';
+  $('#hero-tagline').textContent = settings.heroTagline || '';
+  $('#about-text').textContent = settings.aboutText || '';
 
   allProducts = products;
+  allCategories = categories;
   renderCategoryChips(categories);
-  renderMenu(products);
+  renderMenu();
   setupScrollAnimations();
 
   $('#booking-date').setAttribute('min', new Date().toISOString().split('T')[0]);
