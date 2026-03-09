@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Café Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Raleway:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="admin-wrap">
+    <div class="admin-head panel glass">
+      <h1 class="font-playfair accent">Café Admin Dashboard</h1>
+      <div style="display:flex;gap:8px">
+        <button id="logout-btn" class="btn" style="background:#3a3a3a;color:#fff">Logout</button>
+        <a class="btn btn-outline" href="/">Back to site</a>
+      </div>
+    </div>
+
+    <section>
+      <h2>Category Management</h2>
+      <form id="category-form" class="panel glass" style="margin-bottom:16px;max-width:500px">
+        <label>Category Name<input id="category-name" required></label>
+        <button class="btn gold-gradient" style="color:#111;margin-top:10px" type="submit">Add Category</button>
+      </form>
+      <div id="categories-list" class="chips"></div>
+    </section>
+
+    <section>
+      <h2>Product Management (CRUD)</h2>
+      <form id="product-form" class="panel glass" style="margin-bottom:16px">
+        <input type="hidden" id="product-id">
+        <div class="grid2">
+          <label>Name<input id="product-name" required></label>
+          <label>Price<input id="product-price" type="number" min="0" step="0.01" required></label>
+          <label>Category<select id="product-category" required></select></label>
+          <label>Image URL<input id="product-imageUrl" type="url" placeholder="https://..." required></label>
+        </div>
+        <label>Description<textarea id="product-description" required></textarea></label>
+        <label><input type="checkbox" id="product-available" checked> Available on menu</label>
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <button class="btn gold-gradient" style="color:#111" type="submit">Save Product</button>
+          <button class="btn" style="background:#333;color:#fff" type="button" id="reset-btn">Reset</button>
+        </div>
+      </form>
+      <div class="table-wrap"><table class="table glass"><thead><tr><th>Name</th><th>Category</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead><tbody id="products-tbody"></tbody></table></div>
+    </section>
+
+    <section>
+      <h2>Bookings</h2>
+      <div class="table-wrap"><table class="table glass"><thead><tr><th>Guest</th><th>Date</th><th>Guests</th><th>Status</th><th>Actions</th></tr></thead><tbody id="bookings-tbody"></tbody></table></div>
+    </section>
+
+    <section>
+      <h2>Messages</h2>
+      <div class="table-wrap"><table class="table glass"><thead><tr><th>Name</th><th>Email</th><th>Message</th><th>Actions</th></tr></thead><tbody id="messages-tbody"></tbody></table></div>
+    </section>
+  </div>
+  <script src="/admin.js"></script>
+</body>
+</html>

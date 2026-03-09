@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Café Restaurant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <nav class="glass">
+    <div class="inner">
+      <a class="font-playfair brand" id="nav-logo" href="#home">Café</a>
+      <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#menu">Menu</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="#booking">Book</a>
+      </div>
+    </div>
+  </nav>
+
+  <section id="home">
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-orb orb-3"></div>
+    <div class="hero-card glass reveal">
+      <p class="eyebrow">Welcome to</p>
+      <h1 class="font-playfair" id="hero-title">Café</h1>
+      <p id="hero-tagline" class="hero-tag">A luxurious culinary journey where tradition meets innovation</p>
+      <div class="cta-row">
+        <a class="btn gold-gradient" style="color:#111" href="#menu">Explore Menu</a>
+        <a class="btn btn-outline" href="#booking">Reserve Now</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="menu" class="reveal">
+    <h2 class="font-playfair section-title">The Menu</h2>
+    <p class="section-sub">Fresh dishes, rich flavors, and elegant presentation</p>
+    <div id="menu-categories" class="chips"></div>
+    <div class="menu-grid" id="menu-grid"></div>
+  </section>
+
+  <section id="about" class="reveal">
+    <div class="grid2">
+      <div>
+        <h2 class="font-playfair section-title">A Legacy of Flavor</h2>
+        <p id="about-text" class="muted">At Café, we believe dining is art.</p>
+      </div>
+      <div class="panel glass hover-lift">
+        <h3 class="font-playfair accent">Why guests choose us</h3>
+        <p class="muted">Premium ingredients, master chefs, and unforgettable atmosphere.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="dark-alt reveal">
+    <div class="grid2">
+      <div class="panel glass hover-lift">
+        <h3>Contact Us</h3>
+        <p class="muted">123 Gourmet Street, New York</p>
+        <p class="muted">+1 (555) 123-4567</p>
+        <p class="muted">hello@cafe.restaurant</p>
+      </div>
+      <form id="contact-form" class="panel glass hover-lift">
+        <h3>Send Message</h3>
+        <label>Name<input id="contact-name" required></label>
+        <label>Email<input id="contact-email" required type="email"></label>
+        <label>Message<textarea id="contact-message" required></textarea></label>
+        <button class="btn gold-gradient full" style="color:#111">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <section id="booking" class="reveal">
+    <form id="booking-form" class="panel glass" style="max-width:900px;margin:auto">
+      <h2 class="font-playfair">Book a Table</h2>
+      <div class="grid2">
+        <label>Full Name<input id="booking-name" required></label>
+        <label>Email<input id="booking-email" type="email" required></label>
+        <label>Phone<input id="booking-phone" required></label>
+        <label>Guests<select id="booking-guests" required><option value="">Select</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></label>
+        <label>Date<input id="booking-date" type="date" required></label>
+        <label>Time<select id="booking-time" required><option value="">Select</option><option>11:00</option><option>12:00</option><option>13:00</option><option>18:00</option><option>19:00</option><option>20:00</option></select></label>
+      </div>
+      <label>Special Requests<textarea id="booking-notes"></textarea></label>
+      <button class="btn gold-gradient full" style="color:#111">Confirm Reservation</button>
+    </form>
+  </section>
+
+  <footer>© 2026 Café Restaurant. All rights reserved.</footer>
+  <script src="/app.js"></script>
+</body>
+</html>

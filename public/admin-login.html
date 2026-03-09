@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - Café</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Raleway:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="login-wrap panel glass hover-lift">
+    <h1 class="font-playfair accent" style="margin-top:0">Café Admin Login</h1>
+    <p class="muted">Restricted access for authorized administrators only.</p>
+    <form id="login-form">
+      <label>Username<input id="username" required value="admin"></label>
+      <label>Password<input id="password" type="password" required></label>
+      <button class="btn gold-gradient full" style="color:#111" type="submit">Sign In</button>
+    </form>
+    <p id="login-error" style="color:#fca5a5;display:none;margin-bottom:0">Invalid credentials. Try again.</p>
+  </div>
+  <script src="/admin-login.js"></script>
+</body>
+</html>

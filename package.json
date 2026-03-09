@@ -1,0 +1,11 @@
+{
+  "name": "billo-restaurant",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Full-stack restaurant website with admin product management",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node -e \"console.log('ok')\""
+  }
+}
