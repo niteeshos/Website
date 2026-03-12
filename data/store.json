@@ -1,0 +1,54 @@
+{
+  "categories": [
+    { "id": "c1", "name": "Starters", "slug": "starters" },
+    { "id": "c2", "name": "Mains", "slug": "mains" },
+    { "id": "c3", "name": "Desserts", "slug": "desserts" },
+    { "id": "c4", "name": "Drinks", "slug": "drinks" }
+  ],
+  "products": [
+    {
+      "id": "p1",
+      "name": "Truffle Burrata",
+      "description": "Fresh burrata with black truffle shavings, heirloom tomatoes, and basil oil",
+      "price": 24,
+      "category": "starters",
+      "imageUrl": "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80",
+      "available": true
+    },
+    {
+      "id": "p2",
+      "name": "Wagyu Ribeye",
+      "description": "A5 Japanese Wagyu with truffle butter and roasted garlic",
+      "price": 85,
+      "category": "mains",
+      "imageUrl": "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=1200&q=80",
+      "available": true
+    },
+    {
+      "id": "p3",
+      "name": "Chocolate Soufflé",
+      "description": "Warm chocolate soufflé with vanilla bean ice cream and gold leaf",
+      "price": 18,
+      "category": "desserts",
+      "imageUrl": "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?auto=format&fit=crop&w=1200&q=80",
+      "available": true
+    },
+    {
+      "id": "p4",
+      "name": "Signature Martini",
+      "description": "Our house martini with premium vodka and olive brine",
+      "price": 18,
+      "category": "drinks",
+      "imageUrl": "https://images.unsplash.com/photo-1514361892635-6a8fc6f7b6b2?auto=format&fit=crop&w=1200&q=80",
+      "available": true
+    }
+  ],
+  "bookings": [],
+  "messages": [],
+  "settings": {
+    "restaurantName": "Café",
+    "heroTagline": "A luxurious culinary journey where tradition meets innovation",
+    "aboutText": "At Café, we believe dining is art. Our chefs blend timeless techniques with contemporary creativity to craft unforgettable experiences.",
+    "primaryColor": "#d4a574"
+  }
+}

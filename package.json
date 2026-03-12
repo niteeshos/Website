@@ -1,0 +1,12 @@
+{
+  "name": "cafe-restaurant",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Full-stack Café restaurant website with admin dashboard",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node -e \"console.log('ok')\"",
+    "share-link": "node -e \"const os=require('os');const ifaces=os.networkInterfaces();console.log('Localhost: http://localhost:3000');Object.values(ifaces).flat().filter(i=>i&&i.family==='IPv4'&&!i.internal).forEach(i=>console.log('LAN: http://'+i.address+':3000'));\""
+  }
+}
