@@ -25,19 +25,38 @@ function setupScrollAnimations() {
 function revealMenuCards() {
   document.querySelectorAll('#menu-grid .card').forEach((card, i) => {
     card.classList.add('reveal');
-    card.style.transitionDelay = `${i * 60}ms`;
+    card.style.transitionDelay = `${i * 50}ms`;
     requestAnimationFrame(() => card.classList.add('show'));
   });
 }
 
-function renderCategoryChips(categories) {
+function getEffectiveCategories() {
+  const fromProducts = [...new Set(allProducts.map((p) => p.category).filter(Boolean))]
+    .map((slug) => ({ slug, name: slug.charAt(0).toUpperCase() + slug.slice(1) }));
+
+  if (!allCategories.length) return fromProducts;
+
+  const slugs = new Set(allCategories.map((c) => c.slug));
+  const merged = [...allCategories];
+  fromProducts.forEach((c) => {
+    if (!slugs.has(c.slug)) merged.push(c);
+  });
+  return merged;
+}
+
+function renderCategoryChips() {
+  const categories = getEffectiveCategories();
   const container = $('#menu-categories');
   const chips = [{ name: 'All', slug: 'all' }, ...categories];
-  container.innerHTML = chips.map(c => `<button class="chip ${activeCategory === c.slug ? 'active' : ''}" data-category="${c.slug}">${c.name}</button>`).join('');
+
+  container.innerHTML = chips.map((c) => `
+    <button class="chip ${activeCategory === c.slug ? 'active' : ''}" data-category="${c.slug}">${c.name}</button>
+  `).join('');
+
   container.querySelectorAll('.chip').forEach((btn) => {
     btn.addEventListener('click', () => {
       activeCategory = btn.dataset.category;
-      renderCategoryChips(categories);
+      renderCategoryChips();
       renderMenu();
     });
   });
@@ -50,7 +69,7 @@ function productCard(p) {
       <div class="card-content">
         <h3 class="font-playfair">${p.name}</h3>
         <div class="price">$${Number(p.price).toFixed(2)}</div>
-        <p class="muted">${p.description}</p>
+        <p class="muted">${p.description || ''}</p>
         <p class="pill">${p.category}</p>
       </div>
     </article>
@@ -60,26 +79,37 @@ function productCard(p) {
 function renderMenu() {
   const container = $('#menu-grid');
   const available = allProducts.filter((p) => p.available);
+  const categories = getEffectiveCategories();
+
+  if (!available.length) {
+    container.innerHTML = '<p class="muted">No menu items available right now.</p>';
+    return;
+  }
 
   if (activeCategory !== 'all') {
     const filtered = available.filter((p) => p.category === activeCategory);
-    container.innerHTML = `<div class="menu-row">${filtered.map(productCard).join('')}</div>`;
+    container.innerHTML = `
+      <div class="category-block reveal show">
+        <h3 class="category-title font-playfair">${activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)}</h3>
+        <div class="menu-row">${filtered.map(productCard).join('')}</div>
+      </div>
+    `;
     revealMenuCards();
     return;
   }
 
-  const sections = allCategories.map((c) => {
+  const sections = categories.map((c) => {
     const items = available.filter((p) => p.category === c.slug);
     if (!items.length) return '';
     return `
-      <section class="category-block reveal">
+      <div class="category-block reveal">
         <h3 class="category-title font-playfair">${c.name}</h3>
         <div class="menu-row">${items.map(productCard).join('')}</div>
-      </section>
+      </div>
     `;
   }).join('');
 
-  container.innerHTML = sections || '<p class="muted">No menu items available.</p>';
+  container.innerHTML = sections;
   setupScrollAnimations();
   revealMenuCards();
 }
@@ -98,7 +128,7 @@ async function bootstrap() {
 
   allProducts = products;
   allCategories = categories;
-  renderCategoryChips(categories);
+  renderCategoryChips();
   renderMenu();
   setupScrollAnimations();
 

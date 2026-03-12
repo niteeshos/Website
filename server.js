@@ -12,6 +12,7 @@ const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const USING_SUPABASE = Boolean(SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY);
 const adminSessions = new Set();
+const MAX_BODY_SIZE = 1_000_000;
 
 function readStore() {
   return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
@@ -195,7 +196,10 @@ function sendJson(res, statusCode, data) {
     'Content-Type': 'application/json; charset=utf-8',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type,Authorization'
+    'Access-Control-Allow-Headers': 'Content-Type,Authorization',
+    'X-Content-Type-Options': 'nosniff',
+    'X-Frame-Options': 'SAMEORIGIN',
+    'Referrer-Policy': 'strict-origin-when-cross-origin'
   });
   res.end(JSON.stringify(data));
 }
@@ -203,7 +207,13 @@ function sendJson(res, statusCode, data) {
 function parseBody(req) {
   return new Promise((resolve, reject) => {
     let body = '';
-    req.on('data', chunk => (body += chunk));
+    req.on('data', chunk => {
+      body += chunk;
+      if (body.length > MAX_BODY_SIZE) {
+        reject(new Error('Payload too large'));
+        req.destroy();
+      }
+    });
     req.on('end', () => {
       try {
         resolve(body ? JSON.parse(body) : {});
@@ -248,7 +258,12 @@ function serveFile(reqPath, res) {
       '.svg': 'image/svg+xml'
     }[ext] || 'application/octet-stream';
 
-    res.writeHead(200, { 'Content-Type': mime });
+    res.writeHead(200, {
+      'Content-Type': mime,
+      'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'SAMEORIGIN',
+      'Referrer-Policy': 'strict-origin-when-cross-origin'
+    });
     res.end(data);
   });
 }
@@ -280,13 +295,14 @@ const server = http.createServer(async (req, res) => {
     res.writeHead(204, {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type,Authorization'
+      'Access-Control-Allow-Headers': 'Content-Type,Authorization',
+      'X-Content-Type-Options': 'nosniff'
     });
     return res.end();
   }
 
   try {
-    if (pathname === '/api/health') return sendJson(res, 200, { ok: true, backend: USING_SUPABASE ? 'supabase' : 'json-file' });
+    if (pathname === '/api/health') return sendJson(res, 200, { ok: true, backend: USING_SUPABASE ? 'supabase' : 'json-file', uptimeSec: Math.round(process.uptime()) });
 
     if (pathname === '/api/admin/login' && req.method === 'POST') {
       const body = await parseBody(req);

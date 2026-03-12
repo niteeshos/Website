@@ -1,6 +1,6 @@
-# Café Restaurant (Full-Stack Demo)
+# Café Restaurant (Production-Ready Full Stack)
 
-A complete full-stack restaurant website with:
+A production-ready full-stack restaurant website with:
 - Public website (`/`)
 - Admin login (`/admin`)
 - Admin dashboard (`/admin/dashboard`)
@@ -34,6 +34,26 @@ This prints links like:
 
 > Note: This is shareable only inside your local network. For internet sharing, use a tunnel service (e.g. Cloudflare Tunnel, ngrok) and point it to port `3000`.
 
+
+
+## Production Launch (Make It Fully Live)
+
+Use this sequence to move from local to fully live:
+
+1. **Create Supabase project** and tables (from schema list below).
+2. **Deploy backend** (`server.js`) to a Node host (Render/Railway/VPS).
+3. **Set production env vars**:
+   - `ADMIN_USER`
+   - `ADMIN_PASSWORD`
+   - `SUPABASE_URL`
+   - `SUPABASE_SERVICE_ROLE_KEY`
+   - `PORT` (provided by host)
+4. **Attach custom domain** and force HTTPS.
+5. **Smoke test production URLs**:
+   - `/api/health`
+   - `/`
+   - `/admin`
+6. **Lock admin credentials** and rotate service key if exposed.
 
 ## Supabase Backend (Production-ready option)
 
